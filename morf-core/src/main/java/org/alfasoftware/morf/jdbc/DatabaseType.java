@@ -26,11 +26,13 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.google.common.base.Function;
-import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
+import java.util.Optional;
+
+
 
 /**
  * Encapsulates a supported database type.
@@ -77,7 +79,7 @@ public interface DatabaseType {
    * @return The {@link JdbcUrlElements}, if the URL matches the database type,
    * otherwise absent.
    */
-  public Optional<JdbcUrlElements> extractJdbcUrl(String url);
+  public  Optional<JdbcUrlElements>  extractJdbcUrl(String url);
 
 
   /**
@@ -188,14 +190,14 @@ public interface DatabaseType {
      * @return The {@link DatabaseType}.
      * @throws IllegalStateException If more than one matching database type is found.
      */
-    public static Optional<DatabaseType> findByProductName(final String product) {
+    public static  Optional<DatabaseType>  findByProductName(final String product) {
       List<DatabaseType> result = FluentIterable.from(registeredTypes.values()).filter(new Predicate<DatabaseType>() {
         @Override
         public boolean apply(DatabaseType input) {
           return input.matchesProduct(product);
         }
       }).toList();
-      if (result.isEmpty()) return Optional.absent();
+      if (result.isEmpty()) return Optional.empty();
       if (result.size() > 1) throw new IllegalArgumentException("Database product name [" + product + "] matches "
           + "more than one registered database type " + result);
       return Optional.of(result.get(0));
@@ -224,7 +226,7 @@ public interface DatabaseType {
     public static JdbcUrlElements parseJdbcUrl(String url) {
       JdbcUrlElements result = null;
       for (DatabaseType databaseType : registeredTypes.values()) {
-        Optional<JdbcUrlElements> connectionDetails = databaseType.extractJdbcUrl(url);
+         Optional<JdbcUrlElements>  connectionDetails = databaseType.extractJdbcUrl(url);
         if (connectionDetails.isPresent()) {
           if (result != null) throw new IllegalArgumentException("[" + url + "] matches more than one registered database type");
           result = connectionDetails.get();

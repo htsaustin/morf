@@ -35,9 +35,11 @@ import org.junit.Test;
 
 import org.alfasoftware.morf.dataset.Record;
 import org.alfasoftware.morf.metadata.Table;
-import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import java.util.Optional;
+
+
 
 
 /**
@@ -80,7 +82,7 @@ public class TestSpreadsheetDataSetConsumer {
     final SpreadsheetDataSetConsumer consumer =
         new SpreadsheetDataSetConsumer(
           mock(OutputStream.class),
-          Optional.<Map<String, Integer>>absent(),
+          Optional.<Map<String, Integer>>empty(),
           outputter
         );
 

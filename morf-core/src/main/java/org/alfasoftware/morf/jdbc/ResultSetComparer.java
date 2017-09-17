@@ -48,14 +48,15 @@ import org.alfasoftware.morf.jdbc.ResultSetMismatch.MismatchType;
 import org.alfasoftware.morf.sql.SelectStatement;
 import org.alfasoftware.morf.stringcomparator.DatabaseEquivalentStringComparator;
 import org.apache.commons.lang.ArrayUtils;
-
-import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.inject.ImplementedBy;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import java.util.Optional;
+
+
 
 /**
  * Compares two {@link ResultSet}s.
@@ -143,7 +144,7 @@ public class ResultSetComparer {
 
   private final SqlDialect leftSqlDialect;
   private final SqlDialect rightSqlDialect;
-  private final Optional<Predicate<Void>> terminatePredicate;
+  private final  Optional<Predicate<Void>>  terminatePredicate;
   private final Provider<DatabaseEquivalentStringComparator> databaseEquivalentStringComparator;
 
 
@@ -154,7 +155,7 @@ public class ResultSetComparer {
                     Provider<DatabaseEquivalentStringComparator> databaseEquivalentStringComparator) {
     this.leftSqlDialect = connectionResources.sqlDialect();
     this.rightSqlDialect = connectionResources.sqlDialect();
-    this.terminatePredicate = Optional.absent();
+    this.terminatePredicate = Optional.empty();
     this.databaseEquivalentStringComparator = databaseEquivalentStringComparator;
   }
 
@@ -168,7 +169,7 @@ public class ResultSetComparer {
                     Provider<DatabaseEquivalentStringComparator> databaseEquivalentStringComparator) {
     this.leftSqlDialect = leftConnectionResources.sqlDialect();
     this.rightSqlDialect = rightConnectionResources.sqlDialect();
-    this.terminatePredicate = Optional.absent();
+    this.terminatePredicate = Optional.empty();
     this.databaseEquivalentStringComparator = databaseEquivalentStringComparator;
   }
 
@@ -354,7 +355,7 @@ public class ResultSetComparer {
   private int callbackValueMismatches(ResultSet left, ResultSet right, CompareCallback callBack, ResultSetMetaData metadataRight, List<Integer> valueCols, String[] keys, MismatchType mismatchType) throws SQLException {
     int misMatchCount = 0;
     for (int i : valueCols) {
-      Optional<ResultSetMismatch> mismatch = valueCheck(left, right, keys, i, metadataRight.getColumnType(i), mismatchType);
+       Optional<ResultSetMismatch>  mismatch = valueCheck(left, right, keys, i, metadataRight.getColumnType(i), mismatchType);
       if (mismatch.isPresent()) {
         callBack.mismatch(mismatch.get());
         misMatchCount++;
@@ -397,7 +398,7 @@ public class ResultSetComparer {
    * Produces a mismatch if the specified column index mismatches.
    */
   @SuppressWarnings("rawtypes")
-  private Optional<ResultSetMismatch> valueCheck(ResultSet left, ResultSet right, String[] keys, int i, int columnType, MismatchType checkForMismatchType) throws SQLException {
+  private  Optional<ResultSetMismatch>  valueCheck(ResultSet left, ResultSet right, String[] keys, int i, int columnType, MismatchType checkForMismatchType) throws SQLException {
     Comparable leftValue;
     Comparable rightValue;
     switch(checkForMismatchType) {
@@ -486,8 +487,8 @@ public class ResultSetComparer {
    */
   @SuppressWarnings({ "rawtypes" })
   private MismatchType compareKeyColumn(ResultSet left, ResultSet right, int keyCol, int columnType, boolean leftHasRow, boolean rightHasRow) throws SQLException {
-    Optional<Comparable> leftValue = leftHasRow ? Optional.fromNullable(columnToValue(left, keyCol, columnType)) : null;
-    Optional<Comparable> rightValue = rightHasRow ? Optional.fromNullable(columnToValue(right, keyCol, columnType)) : null;
+     Optional<Comparable>  leftValue = leftHasRow ? Optional.ofNullable(columnToValue(left, keyCol, columnType)) : null;
+     Optional<Comparable>  rightValue = rightHasRow ? Optional.ofNullable(columnToValue(right, keyCol, columnType)) : null;
     return compareKeyValue(leftValue, rightValue);
   }
 
@@ -499,7 +500,7 @@ public class ResultSetComparer {
    *         {@link MismatchType#MISSING_RIGHT}, null if value matches
    */
   @SuppressWarnings({ "rawtypes" })
-  private MismatchType compareKeyValue(Optional<? extends Comparable> leftValue, Optional<? extends Comparable> rightValue) {
+  private MismatchType compareKeyValue( Optional<? extends Comparable>  leftValue,  Optional<? extends Comparable>  rightValue) {
     if (leftValue == null && rightValue == null) {
       throw new IllegalStateException("Cannot compare two nonexistent keys.");
     }
@@ -524,10 +525,10 @@ public class ResultSetComparer {
    * @return An optional mismatch.
    */
   @SuppressWarnings({ "rawtypes" })
-  private Optional<ResultSetMismatch> compareColumnValue(Comparable leftValue, Comparable rightValue, String[] keys, int columnIndex, int columnType, MismatchType mismatchTypeToRaise) {
+  private  Optional<ResultSetMismatch>  compareColumnValue(Comparable leftValue, Comparable rightValue, String[] keys, int columnIndex, int columnType, MismatchType mismatchTypeToRaise) {
 
     if (leftValue == null && rightValue == null) {
-      return Optional.absent();
+      return Optional.empty();
     }
 
     if (rightValue == null && leftValue != null) {
@@ -548,7 +549,7 @@ public class ResultSetComparer {
       ));
     }
 
-    return Optional.absent();
+    return Optional.empty();
   }
 
 

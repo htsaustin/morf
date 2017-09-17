@@ -23,7 +23,9 @@ import org.alfasoftware.morf.jdbc.AbstractDatabaseType;
 import org.alfasoftware.morf.jdbc.JdbcUrlElements;
 import org.alfasoftware.morf.jdbc.SqlDialect;
 import org.alfasoftware.morf.metadata.Schema;
-import com.google.common.base.Optional;
+import java.util.Optional;
+
+
 
 /**
  * Support for NuoDB database hosts.
@@ -94,7 +96,7 @@ public final class NuoDB extends AbstractDatabaseType {
    * @see org.alfasoftware.morf.jdbc.DatabaseType#extractJdbcUrl(java.lang.String)
    */
   @Override
-  public Optional<JdbcUrlElements> extractJdbcUrl(String url) {
-    return Optional.absent();
+  public  Optional<JdbcUrlElements>  extractJdbcUrl(String url) {
+    return Optional.empty();
   }
 }

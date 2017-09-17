@@ -30,7 +30,6 @@ import org.alfasoftware.morf.metadata.RecordBean;
 import org.alfasoftware.morf.metadata.SchemaHomology;
 import org.alfasoftware.morf.metadata.Table;
 import com.google.common.base.Function;
-import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.FluentIterable;
@@ -38,6 +37,9 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Ordering;
+import java.util.Optional;
+
+
 
 /**
  * Measures the differences in a single table between {@link DataSetProducer}s.
@@ -63,7 +65,7 @@ public class TableDataHomology {
    * excluded from the comparison.
    */
   public TableDataHomology() {
-    this(Optional.<Comparator<Record>>absent(), Optional.<Collection<String>>absent());
+    this(Optional.<Comparator<Record>>empty(), Optional.<Collection<String>>empty());
   }
 
 
@@ -74,7 +76,7 @@ public class TableDataHomology {
    * @param orderComparators The comparators to use for ordering the rows, before their are checked for equality.
    */
   public TableDataHomology(Comparator<Record> orderComparator) {
-    this(Optional.of(orderComparator), Optional.<Collection<String>>absent());
+    this(Optional.of(orderComparator), Optional.<Collection<String>>empty());
   }
 
 
@@ -85,9 +87,9 @@ public class TableDataHomology {
    * @param columnsToExclude The column names which will not be subject to comparison.  If absent we will assume that
    *                         we should exclude id and version.
    */
-  public TableDataHomology(Optional<Comparator<Record>> orderComparator, Optional<Collection<String>> columnsToExclude) {
+  public TableDataHomology( Optional<Comparator<Record>>  orderComparator,  Optional<Collection<String>>  columnsToExclude) {
     super();
-    this.orderComparator = orderComparator.orNull();
+    this.orderComparator = orderComparator.orElse(null);
     this.columnsToExclude = columnsToExclude.isPresent() ? Collections2.transform(columnsToExclude.get(), new Function<String, String>() {
       @Override
       public String apply(String input) {
@@ -132,8 +134,8 @@ public class TableDataHomology {
     List<Column> primaryKeys = primaryKeysForTable(table);
     List<Column> primaryKeysForComparison = FluentIterable.from(primaryKeys).filter(excludingExcludedColumns()).toList();
 
-    Optional<Record> next1 = optionalNext(iterator1);
-    Optional<Record> next2 = optionalNext(iterator2);
+     Optional<Record>  next1 = optionalNext(iterator1);
+     Optional<Record>  next2 = optionalNext(iterator2);
     while (moreRecords(table, next1, next2, primaryKeys)) {
       int compareResult = primaryKeysForComparison.isEmpty() ? 0 : compareKeys(next1, next2, primaryKeysForComparison);
       if (compareResult > 0) {
@@ -161,7 +163,7 @@ public class TableDataHomology {
   }
 
 
-  private boolean moreRecords(Table table, Optional<Record> next1, Optional<Record> next2, List<Column> primaryKeys) {
+  private boolean moreRecords(Table table,  Optional<Record>  next1,  Optional<Record>  next2, List<Column> primaryKeys) {
     if (primaryKeys.isEmpty()) {
       if (next1.isPresent() && next2.isPresent()) {
         return true;
@@ -178,12 +180,12 @@ public class TableDataHomology {
   }
 
 
-  private Optional<Record> optionalNext(Iterator<Record> iterator) {
-    return iterator.hasNext() ? Optional.of(iterator.next()) : Optional.<Record>absent();
+  private  Optional<Record>  optionalNext(Iterator<Record> iterator) {
+    return iterator.hasNext() ? Optional.of(iterator.next()) : Optional.<Record>empty();
   }
 
 
-  private int compareKeys(Optional<Record> record1, Optional<Record> record2, List<Column> primaryKeys) {
+  private int compareKeys( Optional<Record>  record1,  Optional<Record>  record2, List<Column> primaryKeys) {
     if (!record1.isPresent() && !record2.isPresent()) {
       throw new IllegalStateException("Cannot compare two nonexistent records.");
     }

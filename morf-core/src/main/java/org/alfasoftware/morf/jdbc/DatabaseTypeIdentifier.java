@@ -23,8 +23,9 @@ import javax.sql.DataSource;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import java.util.Optional;
 
-import com.google.common.base.Optional;
+
 
 /**
  * Allows identification of a database from its metadata.
@@ -53,7 +54,7 @@ public class DatabaseTypeIdentifier {
    *
    * @return Database type, or null if none.
    */
-  public Optional<DatabaseType> identifyFromMetaData() {
+  public  Optional<DatabaseType>  identifyFromMetaData() {
     try {
       Connection connection = dataSource.getConnection();
       try {
