@@ -27,9 +27,8 @@ import org.alfasoftware.morf.metadata.Schema;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import java.util.Optional;
 
-
+import com.google.common.base.Optional;
 
 
 /**
@@ -128,13 +127,13 @@ public final class Oracle extends AbstractDatabaseType {
    * @see org.alfasoftware.morf.jdbc.AbstractDatabaseType#extractJdbcUrl(java.lang.String)
    */
   @Override
-  public  Optional<JdbcUrlElements>  extractJdbcUrl(String jdbcUrl) {
+  public Optional<JdbcUrlElements> extractJdbcUrl(String jdbcUrl) {
     Stack<String> splitURL = splitJdbcUrl(jdbcUrl);
 
     String scheme = splitURL.pop();
 
     if (!scheme.equalsIgnoreCase("oracle")) {
-      return Optional.empty();
+      return Optional.absent();
     }
 
     splitURL.pop(); // Remove the "mem" or "thin"

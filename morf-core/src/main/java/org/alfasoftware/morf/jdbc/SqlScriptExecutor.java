@@ -31,9 +31,8 @@ import org.alfasoftware.morf.sql.SelectStatement;
 import org.alfasoftware.morf.sql.element.SqlParameter;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import java.util.Optional;
 
-
+import com.google.common.base.Optional;
 
 /**
  * Executes an SQL script.
@@ -485,7 +484,7 @@ public class SqlScriptExecutor {
    * @return the result from {@link ResultSetProcessor#process(ResultSet)}.
    */
   private <T> T executeQuery(String sql, Iterable<SqlParameter> parameterMetadata,
-      DataValueLookup parameterData, Connection connection, ResultSetProcessor<T> resultSetProcessor,  Optional<Integer>  maxRows,  Optional<Integer>  queryTimeout) {
+      DataValueLookup parameterData, Connection connection, ResultSetProcessor<T> resultSetProcessor, Optional<Integer> maxRows, Optional<Integer> queryTimeout) {
     try {
       NamedParameterPreparedStatement preparedStatement = NamedParameterPreparedStatement.parse(sql).createFor(connection);
       try {
@@ -500,7 +499,7 @@ public class SqlScriptExecutor {
 
 
   private <T> T executeQuery(NamedParameterPreparedStatement preparedStatement, Iterable<SqlParameter> parameterMetadata,
-      DataValueLookup parameterData, ResultSetProcessor<T> processor,  Optional<Integer>  maxRows,  Optional<Integer>  queryTimeout) {
+      DataValueLookup parameterData, ResultSetProcessor<T> processor, Optional<Integer> maxRows, Optional<Integer> queryTimeout) {
     if (sqlDialect == null) {
       throw new IllegalStateException("Must construct with dialect");
     }
@@ -771,7 +770,7 @@ public class SqlScriptExecutor {
      * @param maxRows The maximum number of rows to return.
      * @return this
      */
-    QueryBuilder withMaxRows( Optional<Integer>  maxRows);
+    QueryBuilder withMaxRows(Optional<Integer> maxRows);
 
 
     /**
@@ -805,8 +804,8 @@ public class SqlScriptExecutor {
     private Iterable<SqlParameter> parameterMetadata = Collections.emptyList();
     private DataValueLookup parameterData = DataSetUtils.record();
     private Connection connection;
-    private  Optional<Integer>  maxRows = Optional.empty();
-    private  Optional<Integer>  queryTimeout = Optional.empty();
+    private Optional<Integer> maxRows = Optional.absent();
+    private Optional<Integer> queryTimeout = Optional.absent();
 
 
     QueryBuilderImpl(String query) {
@@ -857,7 +856,7 @@ public class SqlScriptExecutor {
      * @see org.alfasoftware.morf.jdbc.SqlScriptExecutor.QueryBuilder#withMaxRows(com.google.common.base.Optional)
      */
     @Override
-    public QueryBuilder withMaxRows( Optional<Integer>  maxRows) {
+    public QueryBuilder withMaxRows(Optional<Integer> maxRows) {
       this.maxRows = maxRows;
       return this;
     }

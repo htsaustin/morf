@@ -21,8 +21,6 @@ import static org.mockito.Mockito.verify;
 
 import java.io.File;
 import java.sql.SQLException;
-import java.util.Optional;
-
 
 import javax.sql.DataSource;
 
@@ -33,6 +31,7 @@ import org.alfasoftware.morf.jdbc.DatabaseType;
 import org.alfasoftware.morf.jdbc.DatabaseTypeIdentifier;
 import org.alfasoftware.morf.jdbc.JdbcUrlElements;
 import org.alfasoftware.morf.jdbc.JdbcUrlElements.Builder;
+import com.google.common.base.Optional;
 
 /**
  * Tests for DatabaseType.H2
@@ -86,7 +85,7 @@ public class TestH2DatabaseType {
     // -- Unknown and resource management...
     //
     DataSource dataSource = mockDataSourceFor("FictiousDB", "9.9.9", 9, 9);
-    assertEquals(Optional.empty(), new DatabaseTypeIdentifier(dataSource).identifyFromMetaData());
+    assertEquals(Optional.absent(), new DatabaseTypeIdentifier(dataSource).identifyFromMetaData());
     verify(dataSource.getConnection()).close();
 
     // -- Support platforms...
