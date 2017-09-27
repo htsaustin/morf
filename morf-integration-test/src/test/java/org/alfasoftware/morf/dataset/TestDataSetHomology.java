@@ -37,9 +37,9 @@ import org.junit.Test;
 import org.alfasoftware.morf.metadata.DataType;
 import org.alfasoftware.morf.metadata.Table;
 import org.alfasoftware.morf.xml.XmlDataSetProducer;
+import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
-import java.util.Optional;
 
 /**
  *  Test cases for {@link DataSetHomology}.

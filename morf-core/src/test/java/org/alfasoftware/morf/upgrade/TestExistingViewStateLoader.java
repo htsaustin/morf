@@ -42,8 +42,8 @@ import org.alfasoftware.morf.metadata.View;
 import org.alfasoftware.morf.sql.SelectStatement;
 import org.alfasoftware.morf.sql.element.FieldLiteral;
 import org.alfasoftware.morf.upgrade.ExistingViewStateLoader.Result;
+import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableMap;
-import java.util.Optional;
 
 /**
  * Tests for {@link ExistingViewStateLoader}.
@@ -121,7 +121,7 @@ public class TestExistingViewStateLoader {
     View targetView3   = view("View3", select(literal("z")).from(tableRef("c")));
     Schema targetSchema = schema(targetView1, targetView2, targetView3);
 
-    when(existingViewHashLoader.loadViewHashes(sourceSchema)).thenReturn(Optional.<Map<String, String>>empty());
+    when(existingViewHashLoader.loadViewHashes(sourceSchema)).thenReturn(Optional.<Map<String, String>>absent());
 
     Result viewChanges = onTest.viewChanges(sourceSchema, targetSchema);
 

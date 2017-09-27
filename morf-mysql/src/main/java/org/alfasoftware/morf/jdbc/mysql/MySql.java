@@ -26,7 +26,9 @@ import org.alfasoftware.morf.jdbc.SqlDialect;
 import org.alfasoftware.morf.metadata.Schema;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import java.util.Optional;
+
+import com.google.common.base.Optional;
+
 
 /**
  * Support for MySQL database hosts.
@@ -115,13 +117,13 @@ public final class MySql extends AbstractDatabaseType {
    * @see org.alfasoftware.morf.jdbc.AbstractDatabaseType#extractJdbcUrl(java.lang.String)
    */
   @Override
-  public  Optional<JdbcUrlElements>  extractJdbcUrl(String jdbcUrl) {
+  public Optional<JdbcUrlElements> extractJdbcUrl(String jdbcUrl) {
     Stack<String> splitURL = splitJdbcUrl(jdbcUrl);
 
     String scheme = splitURL.pop();
 
     if (!scheme.equalsIgnoreCase("mysql")) {
-      return Optional.empty();
+      return Optional.absent();
     }
 
     if (!splitURL.pop().equals("://")) {

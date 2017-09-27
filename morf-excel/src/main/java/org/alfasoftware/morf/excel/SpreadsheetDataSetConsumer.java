@@ -27,7 +27,9 @@ import org.alfasoftware.morf.metadata.Table;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import java.util.Optional;
+
+import com.google.common.base.Optional;
+
 import jxl.Workbook;
 import jxl.format.Alignment;
 import jxl.format.Colour;
@@ -72,7 +74,7 @@ public class SpreadsheetDataSetConsumer implements DataSetConsumer {
   /**
    * Number of rows to output for each table.
    */
-  private final  Optional<Map<String, Integer>>  rowsPerTable;
+  private final Optional<Map<String, Integer>> rowsPerTable;
 
 
   /**
@@ -85,7 +87,7 @@ public class SpreadsheetDataSetConsumer implements DataSetConsumer {
    * @param documentOutputStream Stream to which the spreadsheet file should be written.
    */
   public SpreadsheetDataSetConsumer(OutputStream documentOutputStream) {
-    this(documentOutputStream, Optional.<Map<String, Integer>>empty());
+    this(documentOutputStream, Optional.<Map<String, Integer>>absent());
   }
 
 
@@ -96,7 +98,7 @@ public class SpreadsheetDataSetConsumer implements DataSetConsumer {
    */
   public SpreadsheetDataSetConsumer(
       OutputStream documentOutputStream,
-       Optional<Map<String, Integer>>  rowsPerTable) {
+      Optional<Map<String, Integer>> rowsPerTable) {
     this(documentOutputStream, rowsPerTable, new DefaultAdditionalSchemaDataImpl());
   }
 
@@ -109,7 +111,7 @@ public class SpreadsheetDataSetConsumer implements DataSetConsumer {
    */
   public SpreadsheetDataSetConsumer(
       OutputStream documentOutputStream,
-       Optional<Map<String, Integer>>  rowsPerTable,
+      Optional<Map<String, Integer>> rowsPerTable,
       AdditionalSchemaData additionalSchemaData) {
     this(documentOutputStream, rowsPerTable, new TableOutputter(additionalSchemaData));
   }
@@ -121,7 +123,7 @@ public class SpreadsheetDataSetConsumer implements DataSetConsumer {
    */
   SpreadsheetDataSetConsumer(
       OutputStream documentOutputStream,
-       Optional<Map<String, Integer>>  rowsPerTable,
+      Optional<Map<String, Integer>> rowsPerTable,
       TableOutputter tableOutputter) {
     super();
     this.documentOutputStream = documentOutputStream;
