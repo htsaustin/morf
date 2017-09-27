@@ -29,7 +29,7 @@ import org.apache.commons.logging.LogFactory;
 import org.alfasoftware.morf.jdbc.SqlDialect;
 import org.alfasoftware.morf.metadata.Schema;
 import org.alfasoftware.morf.metadata.View;
-import com.google.common.base.Optional;
+import java.util.Optional;
 
 /**
  * Loads the set of view changes which need to be made to match the target schema.
@@ -72,7 +72,7 @@ class ExistingViewStateLoader {
 
     // Work out if existing views which are deployed are OK, because we really
     // don't want to refresh the views on every startup.
-    Optional<Map<String, String>> deployedViews = existingViewHashLoader.loadViewHashes(sourceSchema);
+     Optional<Map<String, String>>  deployedViews = existingViewHashLoader.loadViewHashes(sourceSchema);
     if (deployedViews.isPresent()) {
       for (View view : targetSchema.views()) {
         String targetViewName = view.getName().toUpperCase();

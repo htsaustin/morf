@@ -20,7 +20,7 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.verify;
 
 import java.sql.SQLException;
-
+import java.util.Optional;
 import javax.sql.DataSource;
 
 import org.alfasoftware.morf.jdbc.DatabaseType;
@@ -28,8 +28,6 @@ import org.alfasoftware.morf.jdbc.DatabaseTypeIdentifier;
 import org.alfasoftware.morf.jdbc.JdbcUrlElements;
 import org.junit.Before;
 import org.junit.Test;
-
-import com.google.common.base.Optional;
 
 public class TestOracleDatabaseType {
 
@@ -81,7 +79,7 @@ public class TestOracleDatabaseType {
     // -- Unknown and resource management...
     //
     DataSource dataSource = mockDataSourceFor("FictiousDB", "9.9.9", 9, 9);
-    assertEquals(Optional.absent(), new DatabaseTypeIdentifier(dataSource).identifyFromMetaData());
+    assertEquals(Optional.empty(), new DatabaseTypeIdentifier(dataSource).identifyFromMetaData());
     verify(dataSource.getConnection()).close();
 
     // -- Support platforms...

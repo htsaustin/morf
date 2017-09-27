@@ -27,9 +27,7 @@ import org.alfasoftware.morf.metadata.Schema;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
-import com.google.common.base.Optional;
-
+import java.util.Optional;
 
 /**
  * Support for Sql Server database hosts.
@@ -117,13 +115,13 @@ public final class SqlServer extends AbstractDatabaseType {
    * @see org.alfasoftware.morf.jdbc.AbstractDatabaseType#extractJdbcUrl(java.lang.String)
    */
   @Override
-  public Optional<JdbcUrlElements> extractJdbcUrl(String jdbcUrl) {
+  public  Optional<JdbcUrlElements>  extractJdbcUrl(String jdbcUrl) {
     Stack<String> splitURL = splitJdbcUrl(jdbcUrl);
 
     String scheme = splitURL.pop();
 
     if (!scheme.equalsIgnoreCase("sqlserver")) {
-      return Optional.absent();
+      return Optional.empty();
     }
 
     if (!splitURL.pop().equals("://")) {
