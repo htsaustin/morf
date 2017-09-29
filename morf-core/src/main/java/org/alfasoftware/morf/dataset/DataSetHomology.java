@@ -27,7 +27,7 @@ import org.apache.commons.collections.CollectionUtils;
 
 import org.alfasoftware.morf.metadata.Schema;
 import org.alfasoftware.morf.metadata.SchemaHomology;
-import com.google.common.base.Optional;
+import java.util.Optional;
 
 /**
  * Measures the differences between {@link DataSetProducer}s.
@@ -46,7 +46,7 @@ public class DataSetHomology {
 
   private final Map<String, Comparator<Record>> orderComparators = new HashMap<>();
 
-  private final Optional<Collection<String>> columnsToExclude;
+  private final  Optional<Collection<String>>  columnsToExclude;
 
   /**
    * Create with no ordering comparators and assuming that any columns {@link TableDataHomology} chooses
@@ -64,7 +64,7 @@ public class DataSetHomology {
    * @param orderComparators The comparators to use for ordering the rows, before their are checked for equality.
    */
   public DataSetHomology(Map<String, Comparator<Record>> orderComparators) {
-    this(orderComparators, Optional.<Collection<String>>absent());
+    this(orderComparators, Optional.<Collection<String>>empty());
   }
 
 
@@ -74,7 +74,7 @@ public class DataSetHomology {
    * @param orderComparators The comparators to use for ordering the rows, before their are checked for equality.
    * @param columnsToExclude The column names which will not be subject to comparison.
    */
-  public DataSetHomology(Map<String, Comparator<Record>> orderComparators, Optional<Collection<String>> columnsToExclude) {
+  public DataSetHomology(Map<String, Comparator<Record>> orderComparators,  Optional<Collection<String>>  columnsToExclude) {
     super();
     // make sure the keys are all in upper case
     for(Map.Entry<String, Comparator<Record>> entry : orderComparators.entrySet()) {
@@ -120,7 +120,7 @@ public class DataSetHomology {
 
       // only compare the tables that are common
       for(String tableName : commonTables) {
-        TableDataHomology tableDataHomology = new TableDataHomology(Optional.fromNullable(orderComparators.get(tableName.toUpperCase())), columnsToExclude);
+        TableDataHomology tableDataHomology = new TableDataHomology(Optional.ofNullable(orderComparators.get(tableName.toUpperCase())), columnsToExclude);
         tableDataHomology.compareTable(
           schema1.getTable(tableName),
           producer1.records(tableName),

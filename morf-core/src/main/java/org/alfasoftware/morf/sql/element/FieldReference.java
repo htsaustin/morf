@@ -21,8 +21,7 @@ import org.alfasoftware.morf.util.ObjectTreeTraverser.Driver;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
-
-import com.google.common.base.Optional;
+import java.util.Optional;
 
 /**
  * A field is used by a query to represent a column within the database. This class
@@ -65,7 +64,7 @@ public class FieldReference extends AliasedField implements Driver {
   /**
    * Handling of null values when executing ORDER BY statement
    */
-  private Optional<NullValueHandling> nullValueHandling = Optional.absent();
+  private  Optional<NullValueHandling>  nullValueHandling = Optional.empty();
 
 
   /**
@@ -95,7 +94,7 @@ public class FieldReference extends AliasedField implements Driver {
   }
 
 
-  private FieldReference(TableReference table, String name, Direction direction, Optional<NullValueHandling> nullValueHandling) {
+  private FieldReference(TableReference table, String name, Direction direction,  Optional<NullValueHandling>  nullValueHandling) {
     super();
     this.table = table;
     this.name = name;
@@ -112,7 +111,7 @@ public class FieldReference extends AliasedField implements Driver {
    * @param direction the sort direction of the field
    */
   public FieldReference(TableReference table, String name, Direction direction) {
-    this(table, name, direction, Optional.<NullValueHandling>absent());
+    this(table, name, direction, Optional.<NullValueHandling>empty());
   }
 
 
@@ -173,7 +172,7 @@ public class FieldReference extends AliasedField implements Driver {
    *
    * @return the direction
    */
-  public Optional<NullValueHandling> getNullValueHandling() {
+  public  Optional<NullValueHandling>  getNullValueHandling() {
     return nullValueHandling;
   }
 

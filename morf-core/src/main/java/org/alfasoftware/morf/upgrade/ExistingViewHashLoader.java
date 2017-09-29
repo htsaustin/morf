@@ -35,8 +35,8 @@ import org.alfasoftware.morf.jdbc.RuntimeSqlException;
 import org.alfasoftware.morf.jdbc.SqlDialect;
 import org.alfasoftware.morf.metadata.Schema;
 import org.alfasoftware.morf.sql.SelectStatement;
-import com.google.common.base.Optional;
 import com.google.common.collect.Maps;
+import java.util.Optional;
 
 /**
  * Loads the hashes for the deployed views.
@@ -70,10 +70,10 @@ class ExistingViewHashLoader {
    * @param The existing database schema.
    * @return The deployed view hashes.
    */
-  Optional<Map<String, String>> loadViewHashes(Schema schema) {
+   Optional<Map<String, String>>  loadViewHashes(Schema schema) {
 
     if (!schema.tableExists(DEPLOYED_VIEWS_NAME)) {
-      return Optional.absent();
+      return Optional.empty();
     }
 
     Map<String, String> result = Maps.newHashMap();
